@@ -12,7 +12,7 @@ st.set_page_config(
     initial_sidebar_state="collapsed",
 )
 
-DATA_PATH = Path(__file__).parent / "data" / "results.parquet"
+DATA_PATH = Path(__file__).parent  / "results.parquet"
 MAX_DEGREE = 320
 
 
