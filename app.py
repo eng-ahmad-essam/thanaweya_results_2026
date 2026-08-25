@@ -20,210 +20,35 @@ MAX_DEGREE = 320
 # Styling
 # ----------------------------------------------------------------------------
 def inject_css():
-    st.markdown(
-        """
-        <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Tajawal:wght@400;500;700&display=swap');
-
-        html, body, [class*="css"]  {
-            direction: rtl;
-            font-family: 'Cairo', 'Tajawal', sans-serif;
-        }
-
-        #MainMenu, footer, header {visibility: hidden;}
-
-        .stApp {
-            background:
-                radial-gradient(1200px 600px at 15% -10%, rgba(11,61,45,0.10), transparent 55%),
-                radial-gradient(1000px 500px at 100% 10%, rgba(198,155,73,0.10), transparent 50%),
-                #f7f5ef;
-        }
-
-        .block-container {
-            padding-top: 2.2rem;
-            max-width: 760px;
-        }
-
-        .brand-header {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            margin-bottom: 1.6rem;
-        }
-        .brand-eyebrow {
-            letter-spacing: .12em;
-            font-size: 0.78rem;
-            font-weight: 700;
-            color: #b08a2e;
-            text-transform: uppercase;
-            margin-bottom: .35rem;
-        }
-        .brand-title {
-            font-size: 2.05rem;
-            font-weight: 800;
-            color: #0b3d2d;
-            margin: 0;
-            line-height: 1.25;
-        }
-        .brand-sub {
-            font-size: 0.98rem;
-            color: #55605a;
-            margin-top: .5rem;
-        }
-
-        .lookup-card {
-            background: #ffffff;
-            border: 1px solid #e7e2d4;
-            border-radius: 18px;
-            padding: 1.6rem 1.7rem 1.3rem 1.7rem;
-            box-shadow: 0 10px 30px rgba(11,61,45,0.06);
-        }
-
-        div[data-testid="stTextInput"] input {
-            direction: ltr;
-            text-align: center;
-            font-size: 1.35rem;
-            font-weight: 700;
-            letter-spacing: .04em;
-            border-radius: 12px;
-            border: 1.5px solid #d8d2bf;
-            padding: 0.65rem 0.9rem;
-            color: #0b3d2d;
-        }
-        div[data-testid="stTextInput"] input:focus {
-            border-color: #0b3d2d;
-            box-shadow: 0 0 0 3px rgba(11,61,45,0.12);
-        }
-        div[data-testid="stTextInput"] label {
-            font-weight: 700;
-            color: #2b332f;
-            font-size: 0.95rem;
-        }
-
-        div.stButton > button {
-            width: 100%;
-            background: #0b3d2d;
-            color: #f7f5ef;
-            border: none;
-            border-radius: 12px;
-            padding: 0.65rem 0;
-            font-weight: 700;
-            font-size: 1.05rem;
-            transition: transform .05s ease, background .15s ease;
-        }
-        div.stButton > button:hover {
-            background: #124d38;
-        }
-        div.stButton > button:active {
-            transform: scale(0.99);
-        }
-
-        .result-wrap {
-            margin-top: 1.4rem;
-            animation: rise .35s ease;
-        }
-        @keyframes rise {
-            from { opacity: 0; transform: translateY(8px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .result-card {
-            border-radius: 18px;
-            padding: 1.5rem 1.6rem;
-            border: 1px solid;
-        }
-        .result-pass {
-            background: linear-gradient(180deg, #eef7ef 0%, #ffffff 65%);
-            border-color: #bfe2c4;
-        }
-        .result-fail {
-            background: linear-gradient(180deg, #fbecec 0%, #ffffff 65%);
-            border-color: #f0c4c4;
-        }
-        .result-second {
-            background: linear-gradient(180deg, #fdf3e3 0%, #ffffff 65%);
-            border-color: #f1d9a8;
-        }
-
-        .result-status {
-            display: inline-flex;
-            align-items: center;
-            gap: .4rem;
-            font-weight: 800;
-            font-size: 1.1rem;
-            padding: .3rem .8rem;
-            border-radius: 999px;
-            margin-bottom: .9rem;
-        }
-        .status-pass { background: #0b3d2d; color: #eaf4ec; }
-        .status-fail { background: #7a1f1f; color: #fbeaea; }
-        .status-second { background: #8a5a12; color: #fdf1de; }
-
-        .seat-no {
-            color: #6d766f;
-            font-size: 0.85rem;
-            direction: ltr;
-            text-align: right;
-            display: block;
-            margin-bottom: .15rem;
-        }
-        .student-name {
-            font-size: 1.55rem;
-            font-weight: 800;
-            color: #1c2420;
-            margin: 0 0 1.1rem 0;
-        }
-
-        .degree-row {
-            display: flex;
-            align-items: baseline;
-            gap: .5rem;
-            margin-bottom: .3rem;
-        }
-        .degree-num {
-            font-size: 2.4rem;
-            font-weight: 800;
-            color: #0b3d2d;
-            direction: ltr;
-        }
-        .degree-den {
-            font-size: 1.1rem;
-            color: #6d766f;
-            direction: ltr;
-        }
-        .degree-pct {
-            margin-inline-start: auto;
-            font-size: 1rem;
-            font-weight: 700;
-            color: #55605a;
-            direction: ltr;
-        }
-
-        .progress-track {
-            width: 100%;
-            height: 10px;
-            background: #eceae0;
-            border-radius: 999px;
-            overflow: hidden;
-            margin-top: .5rem;
-        }
-        .progress-fill {
-            height: 100%;
-            border-radius: 999px;
-        }
-
-        .disclaimer {
-            margin-top: 2rem;
-            text-align: center;
-            font-size: 0.8rem;
-            color: #8a8f89;
-            line-height: 1.7;
-        }
-        </style>
-        """,
-        unsafe_allow_html=True,
-    )
+ st.markdown("""
+<style>
+.stApp {
+    background-color: #F4FBF7;  /* clean white-green, not gradient */
+}
+h1, h2, h3 {
+    color: #063B26 !important;   /* dark green, strong contrast */
+}
+p, label, .stMarkdown {
+    color: #12251C !important;   /* near-black green-gray for body text */
+}
+.result-card {
+    background-color: #FFFFFF;
+    border: 2px solid #0B6E4F;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+.stButton>button {
+    background-color: #0B6E4F;
+    color: #FFFFFF;
+    font-weight: 700;
+    border: none;
+}
+.stTextInput>div>div>input {
+    border: 2px solid #0B6E4F;
+    color: #063B26;
+    font-weight: 600;
+}
+</style>
+""", unsafe_allow_html=True)
 
 
 # ----------------------------------------------------------------------------
@@ -262,7 +87,7 @@ def main():
         <div class="brand-header">
             <div class="brand-eyebrow">بوابة الاستعلام الإلكتروني</div>
             <h1 class="brand-title">نتيجة الثانوية العامة<br>٢٠٢٦ — الدور الأول</h1>
-            <div class="brand-sub">أدخل رقم الجلوس لعرض نتيجتك فوراً</div>
+            <div class="brand-sub"> أدخل رقم الجلوس لعرض نتيجتك </div>
         </div>
         """,
         unsafe_allow_html=True,
@@ -279,8 +104,8 @@ def main():
     with st.form(key="lookup_form", clear_on_submit=False):
         seat_input = st.text_input(
             "رقم الجلوس",
-            placeholder="مثال: 2001970",
-            max_chars=10,
+            placeholder="2001970",
+            max_chars=7,
         )
         submitted = st.form_submit_button("استعلام عن النتيجة")
 
@@ -348,3 +173,9 @@ def main():
 
 if __name__ == "__main__":
     main()
+st.markdown("""
+<div style="text-align:center; margin-top:40px; padding:12px; color:#0B6E4F; font-weight:600;">
+    Made By: Ahmed Essam
+</div>
+""", unsafe_allow_html=True)
+    
