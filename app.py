@@ -23,29 +23,169 @@ def inject_css():
     st.markdown("""
 <style>
 .stApp {
-    background-color: #F4FBF7;  /* clean white-green, not gradient */
+    background-color: #F2FBF6;
 }
-h1, h2, h3 {
-    color: #063B26 !important;   /* dark green, strong contrast */
+
+/* ---------- Header ---------- */
+.brand-header {
+    text-align: center;
+    padding: 8px 0 24px 0;
 }
-p, label, .stMarkdown {
-    color: #12251C !important;   /* near-black green-gray for body text */
-}
-.result-card {
-    background-color: #FFFFFF;
-    border: 2px solid #0B6E4F;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-}
-.stButton>button {
-    background-color: #0B6E4F;
-    color: #FFFFFF;
+.brand-eyebrow {
+    color: #B08A2E;
     font-weight: 700;
-    border: none;
+    font-size: 0.95rem;
+    margin-bottom: 6px;
+}
+.brand-title {
+    color: #063B26 !important;
+    font-size: 2rem;
+    font-weight: 800;
+    line-height: 1.3;
+    margin: 4px 0 10px 0;
+}
+.brand-sub {
+    color: #1F3D33;
+    font-size: 1.05rem;
+    font-weight: 500;
+}
+
+/* ---------- Lookup form card ---------- */
+.lookup-card {
+    background: #FFFFFF;
+    border: 1px solid #D7EDE1;
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 4px 14px rgba(6, 59, 38, 0.06);
+    margin-bottom: 18px;
 }
 .stTextInput>div>div>input {
-    border: 2px solid #0B6E4F;
-    color: #063B26;
+    border: 2px solid #0B6E4F !important;
+    border-radius: 10px !important;
+    color: #063B26 !important;
+    font-weight: 700 !important;
+    font-size: 1.1rem !important;
+    text-align: center;
+    padding: 10px !important;
+}
+.stButton>button, .stFormSubmitButton>button {
+    background-color: #0B6E4F !important;
+    color: #FFFFFF !important;
+    font-weight: 700 !important;
+    border: none !important;
+    border-radius: 10px !important;
+    padding: 10px 24px !important;
+    width: 100%;
+    transition: background-color 0.15s ease;
+}
+.stButton>button:hover, .stFormSubmitButton>button:hover {
+    background-color: #094F39 !important;
+}
+
+/* ---------- Result card ---------- */
+.result-wrap {
+    margin-top: 8px;
+}
+.result-card {
+    background: #FFFFFF;
+    border-radius: 18px;
+    padding: 26px 28px;
+    box-shadow: 0 6px 20px rgba(6, 59, 38, 0.10);
+    border-top: 6px solid #0B6E4F;
+}
+.result-card.result-second {
+    border-top-color: #B08A2E;
+}
+.result-card.result-fail {
+    border-top-color: #B03A2E;
+}
+
+.seat-no {
+    display: block;
+    text-align: left;
+    direction: ltr;
+    color: #6B7D74;
+    font-size: 0.9rem;
     font-weight: 600;
+    margin-bottom: 14px;
+}
+
+.result-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 16px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    margin-bottom: 16px;
+}
+.status-pass {
+    background-color: #DFF3E7;
+    color: #0B3D2D;
+}
+.status-second {
+    background-color: #FBEFD4;
+    color: #7A5A0C;
+}
+.status-fail {
+    background-color: #FBE0DD;
+    color: #7A1F1F;
+}
+
+.student-name {
+    color: #0F2A20 !important;
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-bottom: 22px;
+    line-height: 1.4;
+}
+
+.degree-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-bottom: 12px;
+    direction: ltr;
+}
+.degree-num {
+    color: #0B6E4F;
+    font-size: 2.4rem;
+    font-weight: 800;
+}
+.degree-den {
+    color: #6B7D74;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+.degree-pct {
+    color: #0F2A20;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-left: auto;
+}
+
+.progress-track {
+    width: 100%;
+    height: 10px;
+    background-color: #E4EFE9;
+    border-radius: 999px;
+    overflow: hidden;
+}
+.progress-fill {
+    height: 100%;
+    border-radius: 999px;
+    transition: width 0.4s ease;
+}
+
+/* ---------- Disclaimer / footer ---------- */
+.disclaimer {
+    text-align: center;
+    color: #6B7D74;
+    font-size: 0.85rem;
+    margin-top: 22px;
+    line-height: 1.6;
 }
 </style>
 """, unsafe_allow_html=True)
