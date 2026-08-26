@@ -1,79 +1,82 @@
-# نتيجة الثانوية العامة 2026 — بوابة الاستعلام الإلكتروني
+# 🎓 نتيجة الثانوية العامة 2026 — بوابة الاستعلام الإلكتروني
 
-A simple Streamlit web app for looking up Egyptian **Thanaweya Amma (الثانوية العامة)** exam results for the **2026 — First Round (الدور الأول)** by seat number.
+تطبيق ويب بسيط مبني باستخدام **Streamlit** للاستعلام عن نتيجة الثانوية العامة المصرية **(الدور الأول — 2026)** عن طريق رقم الجلوس.
 
-🔗 **Live demo:** https://thanaweyaresults2026-ahmadessam.streamlit.app
+🔗 **رابط التطبيق المباشر:** https://thanaweyaresults2026-ahmadessam.streamlit.app
 
 ---
 
-## What it does
+## 📌 نبذة عن المشروع
 
-Students enter their **7-digit seat number (رقم الجلوس)** and instantly get:
+الطالب بيدخل **رقم الجلوس (7 أرقام)**، والتطبيق بيطلعله فورًا:
 
-- ✅ Their **pass/fail/second-round status** (ناجح / دور ثانٍ / راسب)
-- 🧑‍🎓 Full name
-- 📊 Total degree out of 320, with percentage and a visual progress bar
+- ✅ **حالة النتيجة** (ناجح / دور ثانٍ / راسب)
+- 🧑‍🎓 **اسم الطالب** كامل
+- 📊 **المجموع الكلي** من 320، مع النسبة المئوية وشريط تقدّم بصري
 
-The result is displayed in a clean card, color-coded by outcome:
-- 🟢 Green — passed
-- 🟡 Gold — second round
-- 🔴 Red — failed / absent
+النتيجة بتظهر في بطاقة (Card) منسقة، ومتلوّنة حسب الحالة:
 
-## Tech stack
+| اللون | الحالة |
+|-------|--------|
+| 🟢 أخضر | ناجح |
+| 🟡 ذهبي | دور ثانٍ |
+| 🔴 أحمر | راسب / غياب |
 
-- **[Streamlit](https://streamlit.io/)** — web UI framework
-- **Pandas** — data loading and lookup
-- **Parquet** — result data storage format (fast to load, compact)
+## 🛠️ التقنيات المستخدمة
 
-## Project structure
+- **[Streamlit](https://streamlit.io/)** — لبناء واجهة الويب
+- **Pandas** — لقراءة البيانات والبحث فيها
+- **Parquet** — صيغة تخزين بيانات النتيجة (سريعة وخفيفة الحجم)
+
+## 📂 هيكل المشروع
 
 ```
 .
-├── app.py               # Main Streamlit application
-├── results.parquet      # Student results dataset (seating_no, arabic_name, total_degree, student_case_desc)
-├── requirements.txt     # Python dependencies
-├── config.toml           # Streamlit configuration
+├── app.py               # الكود الرئيسي للتطبيق
+├── results.parquet      # قاعدة بيانات نتائج الطلاب
+├── requirements.txt     # المكتبات المطلوبة لتشغيل المشروع
+├── config.toml           # إعدادات Streamlit
 └── README.md
 ```
 
-## How it works
+## ⚙️ آلية العمل
 
-1. On load, the app reads `results.parquet` into a Pandas DataFrame, indexed by seat number (`seating_no`), and caches it with `@st.cache_resource` so it's only loaded once per session.
-2. The user submits a seat number through a form.
-3. The app validates the input (must be digits only, must exist in the dataset).
-4. If found, it looks up the student's name, total degree, and status, calculates the percentage (`degree / 320`), and renders a styled result card.
+1. عند فتح التطبيق، يتم تحميل ملف `results.parquet` وتحويله إلى جدول بيانات (DataFrame) مفهرس برقم الجلوس، ويتم تخزينه مؤقتًا (`@st.cache_resource`) بحيث لا يُعاد تحميله في كل مرة.
+2. الطالب يدخل رقم جلوسه ويضغط على زر "استعلام عن النتيجة".
+3. يتحقق التطبيق من صحة الرقم المدخل (أرقام فقط، وموجود ضمن قاعدة البيانات).
+4. في حالة العثور على الرقم، يتم عرض اسم الطالب والمجموع والحالة، مع حساب النسبة المئوية (`المجموع ÷ 320`) وعرضها في بطاقة نتيجة منسقة.
 
-## Running locally
+## 💻 التشغيل محليًا
 
 ```bash
-# Clone the repo
+# استنساخ المستودع
 git clone https://github.com/eng-ahmad-essam/thanaweya_results_2026.git
 cd thanaweya_results_2026
 
-# Install dependencies
+# تثبيت المكتبات المطلوبة
 pip install -r requirements.txt
 
-# Run the app
+# تشغيل التطبيق
 streamlit run app.py
 ```
 
-The app will open at `http://localhost:8501`.
+بعد التشغيل، يفتح التطبيق تلقائيًا على `http://localhost:8501`
 
-## Data requirements
+## 📋 متطلبات قاعدة البيانات
 
-`results.parquet` must contain at least these columns:
+يجب أن يحتوي ملف `results.parquet` على الأعمدة التالية على الأقل:
 
-| Column               | Description                              |
-|----------------------|-------------------------------------------|
-| `seating_no`          | Student seat number (used as lookup key) |
-| `arabic_name`          | Student's full name in Arabic            |
-| `total_degree`         | Total score out of 320                   |
-| `student_case_desc`    | Result status text (e.g. "ناجح دور أول") |
+| اسم العمود | الوصف |
+|------------|--------|
+| `seating_no` | رقم جلوس الطالب (يُستخدم كمفتاح للبحث) |
+| `arabic_name` | اسم الطالب بالكامل باللغة العربية |
+| `total_degree` | المجموع الكلي من 320 |
+| `student_case_desc` | حالة النتيجة النصية (مثل "ناجح دور أول") |
 
-## Disclaimer
+## ⚠️ تنبيه هام
 
-This tool is for **electronic inquiry purposes only** and does not substitute for the official certificate issued by the Ministry of Education (وزارة التربية والتعليم).
+هذه الخدمة **للاستعلام الإلكتروني فقط**، ولا تُغني عن الشهادة الرسمية الصادرة من **وزارة التربية والتعليم**.
 
 ---
 
-**Made By: Ahmed Essam**
+(Made By: Ahmed Essam)**
