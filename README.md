@@ -1,77 +1,79 @@
-# موقع الاستعلام عن نتيجة الثانوية العامة 2026
+# نتيجة الثانوية العامة 2026 — بوابة الاستعلام الإلكتروني
 
-موقع بسيط مبني بـ Streamlit يتيح لأكثر من 919 ألف طالب وطالبة الاستعلام عن نتيجتهم
-بإدخال رقم الجلوس فقط.
+A simple Streamlit web app for looking up Egyptian **Thanaweya Amma (الثانوية العامة)** exam results for the **2026 — First Round (الدور الأول)** by seat number.
 
-## محتويات المشروع
+🔗 **Live demo:** https://thanaweyaresults2026-ahmadessam.streamlit.app
+
+---
+
+## What it does
+
+Students enter their **7-digit seat number (رقم الجلوس)** and instantly get:
+
+- ✅ Their **pass/fail/second-round status** (ناجح / دور ثانٍ / راسب)
+- 🧑‍🎓 Full name
+- 📊 Total degree out of 320, with percentage and a visual progress bar
+
+The result is displayed in a clean card, color-coded by outcome:
+- 🟢 Green — passed
+- 🟡 Gold — second round
+- 🔴 Red — failed / absent
+
+## Tech stack
+
+- **[Streamlit](https://streamlit.io/)** — web UI framework
+- **Pandas** — data loading and lookup
+- **Parquet** — result data storage format (fast to load, compact)
+
+## Project structure
 
 ```
-project/
-├── app.py                  # كود الموقع (Streamlit)
-├── data/
-│   └── results.parquet     # قاعدة بيانات النتيجة (مضغوطة، ~13 ميجا بدلاً من 36 ميجا)
-├── requirements.txt        # المكتبات المطلوبة
-├── .streamlit/config.toml  # ألوان وإعدادات الموقع
+.
+├── app.py               # Main Streamlit application
+├── results.parquet      # Student results dataset (seating_no, arabic_name, total_degree, student_case_desc)
+├── requirements.txt     # Python dependencies
+├── config.toml           # Streamlit configuration
 └── README.md
 ```
 
-تم تحويل ملف الإكسل الأصلي (36 ميجا) إلى ملف Parquet مضغوط (13 ميجا تقريباً) لأن:
-- حجمه أصغر بكثير فيسهل رفعه على GitHub.
-- تحميله في الذاكرة عند فتح الموقع أسرع بكثير من قراءة إكسل بـ 919,396 صف في كل مرة.
-- عمود رقم الجلوس مُستخدم كفهرس (index) فيبحث فيه الموقع فوراً بدون أي إبطاء.
+## How it works
 
-## خطوات الرفع على GitHub
+1. On load, the app reads `results.parquet` into a Pandas DataFrame, indexed by seat number (`seating_no`), and caches it with `@st.cache_resource` so it's only loaded once per session.
+2. The user submits a seat number through a form.
+3. The app validates the input (must be digits only, must exist in the dataset).
+4. If found, it looks up the student's name, total degree, and status, calculates the percentage (`degree / 320`), and renders a styled result card.
 
-1. أنشئ مستودع (repository) جديد على GitHub، مثلاً باسم `thanaweya-results-2026`.
-2. ارفع كل الملفات الموجودة داخل مجلد `project` (بما فيها مجلد `data` والملف المخفي `.streamlit`) كما هي، بنفس الأسماء والمسارات.
-   - تأكد أن حجم `data/results.parquet` أقل من حد GitHub (100 ميجا) — حجمه الحالي حوالي 13 ميجا فلا توجد مشكلة.
-3. تأكد أن `requirements.txt` في جذر المستودع (نفس مكان `app.py`).
-
-عبر الموقع مباشرة:
-- ادخل إلى الريبو على GitHub → Add file → Upload files → اسحب كل الملفات وارفعها → Commit.
-
-أو عبر Git من جهازك:
-```bash
-git init
-git add .
-git commit -m "نتيجة الثانوية العامة 2026"
-git branch -M main
-git remote add origin https://github.com/USERNAME/REPO_NAME.git
-git push -u origin main
-```
-
-## خطوات النشر على Streamlit Community Cloud
-
-1. ادخل على https://share.streamlit.io وسجل الدخول بحساب GitHub.
-2. اضغط **New app**.
-3. اختر المستودع الذي رفعته، والفرع `main`، وحدد **Main file path** = `app.py`.
-4. اضغط **Deploy**. سيقوم Streamlit تلقائياً بتثبيت المكتبات من `requirements.txt` وتشغيل الموقع.
-5. بعد دقيقة أو دقيقتين سيكون الموقع متاحاً على رابط بصيغة:
-   `https://REPO_NAME-xxxxx.streamlit.app`
-
-## اختبار الموقع محلياً قبل الرفع (اختياري)
+## Running locally
 
 ```bash
+# Clone the repo
+git clone https://github.com/eng-ahmad-essam/thanaweya_results_2026.git
+cd thanaweya_results_2026
+
+# Install dependencies
 pip install -r requirements.txt
+
+# Run the app
 streamlit run app.py
 ```
 
-## ملاحظات مهمة
+The app will open at `http://localhost:8501`.
 
-- **الخصوصية**: قاعدة البيانات تحتوي على أسماء حقيقية لطلاب حقيقيين. أي شخص يعرف رقم
-  جلوس آخر يمكنه رؤية اسمه ونتيجته (تماماً كموقع نتيجة رسمي). إذا أردت طبقة حماية إضافية
-  (مثل طلب جزء من الاسم أو الرقم القومي للتأكيد)، يجب توفير هذه البيانات في الملف الأصلي أولاً.
-- **تحديث البيانات**: إذا تغيّر ملف الإكسل مستقبلاً، أعد فقط تشغيل سكربت التحويل الموجود في نهاية
-  هذا الملف لإنشاء `results.parquet` جديد، ثم استبدل الملف القديم به وارفعه على GitHub.
+## Data requirements
 
-### سكربت إعادة توليد ملف Parquet من إكسل جديد
+`results.parquet` must contain at least these columns:
 
-```python
-import pandas as pd
+| Column               | Description                              |
+|----------------------|-------------------------------------------|
+| `seating_no`          | Student seat number (used as lookup key) |
+| `arabic_name`          | Student's full name in Arabic            |
+| `total_degree`         | Total score out of 320                   |
+| `student_case_desc`    | Result status text (e.g. "ناجح دور أول") |
 
-df = pd.read_excel("النتيجة_الجديدة.xlsx")
-df["seating_no"] = df["seating_no"].astype("int32")
-df["total_degree"] = df["total_degree"].astype("int16")
-df["student_case_desc"] = df["student_case_desc"].astype("category")
-df.to_parquet("data/results.parquet", compression="gzip", index=False)
-```
+## Disclaimer
+
+This tool is for **electronic inquiry purposes only** and does not substitute for the official certificate issued by the Ministry of Education (وزارة التربية والتعليم).
+
+---
+
+**Made By: Ahmed Essam**
